@@ -1,56 +1,61 @@
 # springboot-mqtt-example
-An example of integrating MQTT messaging into Spring Boot.
+An example of integrating MQTT messaging into Spring Boot and Oracle database
 
-## Building the Example
-Run the following command to build the example:
+## Requirements
 
-    ./gradlew clean buildImage
+Install **maven** and **gradle** to compile the projects, and **docker** to create containers for the needed apps.
+
+- maven
+- gradle
+- docker
+
+## Configuration
+
+Edit the file ![application-localdocker.properties](mqtt-service/src/main/resources/application-localdocker.properties) with the proper values for the Oracle database and for the MQTT server connection. 
+```
+# Local Docker Properties
+mqtt.hostname=host.docker.internal
+mqtt.port=1883
+mqtt.username=username
+mqtt.password=password
+mqtt.topic=example.sensor.temp
+
+spring.datasource.url=jdbc:oracle:thin:@192.168.1.8:1521/ORCL
+spring.datasource.username=mqtt
+spring.datasource.password=oracle
+spring.datasource.driver-class-name=oracle.jdbc.driver.OracleDriver
+spring.jpa.show-sql=true
+spring.jpa.database=oracle
+```
+
+## Build
+
+1. Go to https://www.oracle.com/es/database/technologies/appdev/jdbc-downloads.html and download the jdbc driver for your database.
+2. Install the .jar into the local maven repository.
+```
+# For ojdbc8.jar would be like
+mvn install:install-file -Dfile=ojdbc8.jar -DgroupId=com.oracle -DartifactId=ojdbc8 -Dversion=1.0 -Dpackaging=jar -DgeneratePom=true
+```
+3. Run the following command to build the example:
+
+```
+./gradlew clean buildImage
+```
     
 This command builds the example as a set of Docker images.
 
-## Running the Example
+## Test
 Follow the steps below to run the example:
 
 1. Run the following command to start the example:
 
-        docker-compose up
+```
+docker-compose up
+```
+
+The Docker Compose script starts the following containers:
+
+* 1 - Eclipse Mosquitto MQTT Broker
+* 1 - [mqtt-service](mqtt-service) to collect temperature statistics.
+* 2 - [temp-sensor](temp-sensor) to generate temperature data.
         
-   The Docker Compose script starts the following containers:
-   
-   * 1 - Eclipse Mosquitto MQTT Broker
-   * 1 - [mqtt-service](mqtt-service) to collect temperature statistics.
-   * 2 - [temp-sensor](temp-sensor) to generate temperature data.
-        
-2. Execute the following command to get the current count and average of temperature observations:
-
-        curl http://localhost:8080/temps/stats
-        
-    If successful, you will see a response similar to the following:
-
-        {"count":16,"average":71.03261965593954}
-    
-## Bugs and Feedback
-For bugs, questions, and discussions please use the [Github Issues](https://github.com/gregwhitaker/springboot-mqtt-example/issues).
-
-## License
-MIT License
-
-Copyright (c) 2019 Greg Whitaker
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
