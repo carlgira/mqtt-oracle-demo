@@ -10,12 +10,14 @@ plugins {
 sourceCompatibility = 1.8
 
 dependencies {
-    implementation project(':model')
-
     implementation 'org.springframework.integration:spring-integration-mqtt'
-    // This is a temporary fix for https://github.com/spring-projects/spring-integration/issues/3051
     implementation 'org.springframework.integration:spring-integration-jmx'
     implementation 'org.springframework.boot:spring-boot-starter-webflux'
+    implementation ("org.springframework.boot:spring-boot-starter-data-jpa:$springBootVersion") {
+        exclude group: 'org.apache.tomcat', module: 'tomcat-jdbc'
+    }
+
+    compile "com.oracle:ojdbc8:1.0"
 }
 
 // Packaging
@@ -23,5 +25,5 @@ task buildImage(type: DockerBuildImage, dependsOn: build) {
     buildArgs = ['JAR_FILE': "${bootJar.archiveName}"]
     dockerFile = file("${projectDir}/Dockerfile")
     inputDir = file("${projectDir}")
-    tags = ["gregnetifi/mqtt-example-${projectDir.name}", "gregnetifi/mqtt-example-${projectDir.name}:${version}"]
+    tags = ["carlgira/mqtt-example-${projectDir.name}", "carlgira/mqtt-example-${projectDir.name}:${version}"]
 }

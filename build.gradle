@@ -1,6 +1,12 @@
+buildscript {
+    ext {
+        springBootVersion = '2.1.5.RELEASE'
+    }
+}
+
 plugins {
     id "com.gradle.build-scan" version "3.0"
-    id 'org.springframework.boot' version '2.1.5.RELEASE' apply false
+    id 'org.springframework.boot' version "$springBootVersion" apply false
     id "io.spring.dependency-management" version "1.0.7.RELEASE" apply false
     id "com.bmuschko.docker-remote-api" version "3.4.4" apply false
 }
@@ -14,7 +20,9 @@ allprojects {
     apply plugin: 'idea'
 
     repositories {
+        mavenLocal()
         mavenCentral()
         jcenter()
+
     }
 }

@@ -28,7 +28,7 @@ public class TempMessageHandler implements MessageHandler {
             LOG.info("Received Message: " + message.getPayload().toString());
 
             TempMessage tempMessage = mapper.readerFor(TempMessage.class).readValue(message.getPayload().toString());
-            tempStats.addTemp(tempMessage.getTemp());
+            tempStats.save(tempMessage);
         } catch (IOException e) {
             e.printStackTrace();
         }

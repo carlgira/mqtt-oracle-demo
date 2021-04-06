@@ -1,8 +1,11 @@
 package example.model;
 
-public class TempMessage {
+import java.io.Serializable;
+
+public class TempMessage  implements Serializable{
 
     private String sensorId;
+
     private double temp;
 
     public TempMessage() {}

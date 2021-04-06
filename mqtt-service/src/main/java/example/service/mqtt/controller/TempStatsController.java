@@ -23,8 +23,8 @@ public class TempStatsController {
                 produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> getTemps() {
         GetTempsResponse response = new GetTempsResponse();
-        response.setCount(tempStats.getCount());
-        response.setAverage(tempStats.getAverage());
+        response.setCount(tempStats.count());
+        //response.setAverage(tempStats.getAverage());
 
         return ResponseEntity.ok(response);
     }
@@ -32,12 +32,7 @@ public class TempStatsController {
     @GetMapping(value = "/temps/stats/count",
                 produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> getTempCount() {
-        return ResponseEntity.ok(new GetTempCountResponse(tempStats.getCount()));
+        return ResponseEntity.ok(new GetTempCountResponse(tempStats.count()));
     }
 
-    @GetMapping(value = "/temps/stats/avg",
-                produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> getAverageTemp() {
-        return ResponseEntity.ok(new GetTempAverageResponse(tempStats.getAverage()));
-    }
 }

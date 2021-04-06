@@ -10,8 +10,6 @@ plugins {
 sourceCompatibility = 1.8
 
 dependencies {
-    implementation project(':model')
-    
     implementation 'org.springframework.boot:spring-boot-starter'
     implementation 'org.springframework.integration:spring-integration-mqtt'
     implementation 'io.projectreactor:reactor-core'
@@ -23,5 +21,5 @@ task buildImage(type: DockerBuildImage, dependsOn: build) {
     buildArgs = ['JAR_FILE': "${bootJar.archiveName}"]
     dockerFile = file("${projectDir}/Dockerfile")
     inputDir = file("${projectDir}")
-    tags = ["gregnetifi/mqtt-example-${projectDir.name}", "gregnetifi/mqtt-example-${projectDir.name}:${version}"]
+    tags = ["carlgira/mqtt-example-${projectDir.name}", "carlgira/mqtt-example-${projectDir.name}:${version}"]
 }

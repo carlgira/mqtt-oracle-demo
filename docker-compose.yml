@@ -5,20 +5,16 @@ services:
     ports:
       - "1883:1883"
       - "9001:9001"
+    volumes:
+      - ./mosquitto.conf:/mosquitto/config/mosquitto.conf
   temp-sensor1:
-    image: gregnetifi/mqtt-example-temp-sensor
-    environment:
-      - "SPRING_PROFILES_ACTIVE=localdocker"
-    depends_on:
-      - mqtt-broker
-  temp-sensor2:
-    image: gregnetifi/mqtt-example-temp-sensor
+    image: carlgira/mqtt-example-temp-sensor
     environment:
       - "SPRING_PROFILES_ACTIVE=localdocker"
     depends_on:
       - mqtt-broker
   mqtt-service:
-    image: gregnetifi/mqtt-example-mqtt-service
+    image: carlgira/mqtt-example-mqtt-service
     environment:
       - "SPRING_PROFILES_ACTIVE=localdocker"
     ports:

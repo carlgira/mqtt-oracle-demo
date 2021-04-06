@@ -15,6 +15,7 @@ import reactor.core.publisher.Flux;
 
 import java.time.Duration;
 import java.util.Collections;
+import java.util.UUID;
 import java.util.concurrent.ThreadLocalRandom;
 
 /**
@@ -25,21 +26,17 @@ public class Sensor implements CommandLineRunner {
     private static final Logger LOG = LoggerFactory.getLogger(Sensor.class);
 
     @Autowired
-    @Qualifier("mqttClientId")
-    private String mqttClientId;
-
-    @Autowired
     private IntegrationFlow mqttOutboundFlow;
 
     private Jackson2JsonObjectMapper mapper = new Jackson2JsonObjectMapper();
 
     @Override
     public void run(String... args) throws Exception {
-        LOG.info("Starting Sensor: {}", mqttClientId);
 
-        Flux.interval(Duration.ofSeconds(1))
+        Flux.interval(Duration.ofSeconds(5))
                 .map(tick -> ThreadLocalRandom.current().nextDouble(70.0, 72.0))
                 .subscribe(temp -> {
+                    String mqttClientId = "temp-" + UUID.randomUUID().toString().replace("-", "");
                     LOG.info("Temp: " + temp);
                     mqttOutboundFlow.getInputChannel().send(new Message<String>() {
                         @Override
