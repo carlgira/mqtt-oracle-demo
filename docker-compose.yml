@@ -13,11 +13,15 @@ services:
       - "SPRING_PROFILES_ACTIVE=localdocker"
     depends_on:
       - mqtt-broker
-  mqtt-service:
+  mqtt-service1:
     image: carlgira/mqtt-example-mqtt-service
     environment:
       - "SPRING_PROFILES_ACTIVE=localdocker"
-    ports:
-      - "8080:8080"
+    depends_on:
+      - mqtt-broker
+  mqtt-service2:
+    image: carlgira/mqtt-example-mqtt-service
+    environment:
+      - "SPRING_PROFILES_ACTIVE=localdocker"
     depends_on:
       - mqtt-broker

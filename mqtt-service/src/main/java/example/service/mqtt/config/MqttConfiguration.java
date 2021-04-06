@@ -12,6 +12,8 @@ import org.springframework.integration.mqtt.core.DefaultMqttPahoClientFactory;
 import org.springframework.integration.mqtt.core.MqttPahoClientFactory;
 import org.springframework.integration.mqtt.inbound.MqttPahoMessageDrivenChannelAdapter;
 
+import java.util.UUID;
+
 @Configuration
 @EnableConfigurationProperties({
         MqttSettings.class
@@ -41,8 +43,9 @@ public class MqttConfiguration {
     public IntegrationFlow mqttInbound(MqttSettings settings,
                                        MqttPahoClientFactory mqttClientFactory,
                                        TempMessageHandler tempMessageHandler) {
+        String clientId = "mqtt-service-" + UUID.randomUUID().toString().replace("-", "");
         return IntegrationFlows.from(
-                new MqttPahoMessageDrivenChannelAdapter("mqtt-service", mqttClientFactory, settings.getTopic()))
+                new MqttPahoMessageDrivenChannelAdapter(clientId, mqttClientFactory, settings.getTopic()))
                 .handle(tempMessageHandler)
                 .get();
     }

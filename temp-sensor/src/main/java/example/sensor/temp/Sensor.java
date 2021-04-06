@@ -15,6 +15,7 @@ import reactor.core.publisher.Flux;
 
 import java.time.Duration;
 import java.util.Collections;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -37,13 +38,14 @@ public class Sensor implements CommandLineRunner {
                 .map(tick -> ThreadLocalRandom.current().nextDouble(70.0, 72.0))
                 .subscribe(temp -> {
                     String mqttClientId = "temp-" + UUID.randomUUID().toString().replace("-", "");
-                    LOG.info("Temp: " + temp);
+                    //LOG.info("Temp: " + temp);
                     mqttOutboundFlow.getInputChannel().send(new Message<String>() {
                         @Override
                         public String getPayload() {
                             try {
                                 return mapper.toJson(new TempMessage(mqttClientId, temp));
                             } catch (Exception e) {
+                                e.printStackTrace();
                                 throw new RuntimeException("Exception occurred building mqtt message", e);
                             }
                         }
