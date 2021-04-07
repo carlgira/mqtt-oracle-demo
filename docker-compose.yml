@@ -9,6 +9,8 @@ services:
       - ./mosquitto.conf:/mosquitto/config/mosquitto.conf
   temp-sensor1:
     image: carlgira/mqtt-example-temp-sensor
+    ports:
+      - "8080:8080"
     environment:
       - "SPRING_PROFILES_ACTIVE=localdocker"
     depends_on:

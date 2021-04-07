@@ -2,6 +2,7 @@ package example.service.mqtt.handlers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import example.model.TempMessage;
+import example.service.mqtt.config.MqttConfiguration;
 import example.service.mqtt.statistics.TempStatistics;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,6 +13,7 @@ import org.springframework.messaging.MessagingException;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
+import java.util.Date;
 
 @Component
 public class TempMessageHandler implements MessageHandler {
@@ -26,8 +28,9 @@ public class TempMessageHandler implements MessageHandler {
     public void handleMessage(Message<?> message) throws MessagingException {
         try {
             //LOG.info("Received Message: " + message.getPayload().toString());
-
             TempMessage tempMessage = mapper.readerFor(TempMessage.class).readValue(message.getPayload().toString());
+            tempMessage.setClientId(MqttConfiguration.clientId);
+            tempMessage.setModifiedTimestamp(new Date());
             tempStats.save(tempMessage);
         } catch (IOException e) {
             e.printStackTrace();

@@ -20,6 +20,8 @@ import java.util.UUID;
 })
 public class MqttConfiguration {
 
+    public static String clientId = "mqtt-service-" + UUID.randomUUID().toString().replace("-", "");
+
     @Bean
     public MqttPahoClientFactory mqttClientFactory(MqttSettings settings) {
         MqttConnectOptions options = new MqttConnectOptions();
@@ -43,7 +45,6 @@ public class MqttConfiguration {
     public IntegrationFlow mqttInbound(MqttSettings settings,
                                        MqttPahoClientFactory mqttClientFactory,
                                        TempMessageHandler tempMessageHandler) {
-        String clientId = "mqtt-service-" + UUID.randomUUID().toString().replace("-", "");
         return IntegrationFlows.from(
                 new MqttPahoMessageDrivenChannelAdapter(clientId, mqttClientFactory, settings.getTopic()))
                 .handle(tempMessageHandler)

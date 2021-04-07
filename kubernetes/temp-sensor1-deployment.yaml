@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    io.kompose.service: temp-sensor1
+  name: temp-sensor1
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: temp-sensor1
+  strategy: {}
+  template:
+    metadata:
+      labels:
+        io.kompose.service: temp-sensor1
+    spec:
+      containers:
+      - env:
+        - name: SPRING_PROFILES_ACTIVE
+          value: localdocker
+        image: carlgira/mqtt-example-temp-sensor
+        imagePullPolicy: ""
+        name: temp-sensor1
+        resources: {}
+      restartPolicy: Always
+      serviceAccountName: ""
+      volumes: null
+status: {}

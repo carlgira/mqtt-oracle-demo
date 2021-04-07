@@ -11,7 +11,12 @@ Install **maven** and **gradle** to compile the projects, and **docker** to crea
 
 ## Configuration
 
-Edit the file ![application-localdocker.properties](mqtt-service/src/main/resources/application-localdocker.properties) with the proper values for the Oracle database and for the MQTT server connection. 
+1. Create a database user, and inside the next table.
+```
+CREATE TABLE SENSOR (SENSOR_ID VARCHAR2(50), TEMP NUMBER, CLIENT_ID VARCHAR2(50), MOD_TIMESTAMP TIMESTAMP);
+```
+
+2. Edit the file ![application-localdocker.properties](mqtt-service/src/main/resources/application-localdocker.properties) with the proper values for the Oracle database and for the MQTT server connection. 
 ```
 # Local Docker Properties
 mqtt.hostname=host.docker.internal

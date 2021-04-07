@@ -2,6 +2,7 @@ package example.model;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.Date;
 
 @Entity
 @Cacheable(false)
@@ -14,6 +15,13 @@ public class TempMessage  implements Serializable{
 
     @Column(name="TEMP")
     private double temp;
+
+    @Column(name="CLIENT_ID")
+    private String clientId;
+
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name="MOD_TIMESTAMP")
+    private Date modifiedTimestamp;
 
     public TempMessage() {}
 
@@ -36,6 +44,22 @@ public class TempMessage  implements Serializable{
 
     public void setTemp(double temp) {
         this.temp = temp;
+    }
+
+    public String getClientId() {
+        return clientId;
+    }
+
+    public void setClientId(String clientId) {
+        this.clientId = clientId;
+    }
+
+    public Date getModifiedTimestamp() {
+        return modifiedTimestamp;
+    }
+
+    public void setModifiedTimestamp(Date modifiedTimestamp) {
+        this.modifiedTimestamp = modifiedTimestamp;
     }
 
     @Override
