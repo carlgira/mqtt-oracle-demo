@@ -9,6 +9,8 @@ Install **maven** and **gradle** to compile the projects, and **docker** to crea
 - gradle
 - docker
 
+**  *For commands to install on centos-7 see file config-req.sh*
+
 ## Configuration
 
 1. Create a database user, and inside the next table.
