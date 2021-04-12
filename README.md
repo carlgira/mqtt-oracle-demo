@@ -1,4 +1,4 @@
-# springboot-mqtt-example
+# mqtt-oracle-demo
 An example of integrating MQTT messaging into Spring Boot and Oracle database
 
 ## Requirements
