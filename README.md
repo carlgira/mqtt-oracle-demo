@@ -36,10 +36,31 @@ spring.jpa.database=oracle
 ## Build
 
 1. Go to https://www.oracle.com/es/database/technologies/appdev/jdbc-downloads.html and download the jdbc driver for your database.
-2. Install the .jar into the local maven repository.
+2. Install all the .jar into the local maven repository.
 ```
-# For ojdbc8.jar would be like
-mvn install:install-file -Dfile=ojdbc8.jar -DgroupId=com.oracle -DartifactId=ojdbc8 -Dversion=1.0 -Dpackaging=jar -DgeneratePom=true
+# For driver 19.3 would be like
+
+mvn install:install-file -Dfile=ons.jar -DgroupId=com.oracle.jdbc -DartifactId=ons -Dversion=19.3 -Dpackaging=jar -DgeneratePom=true
+
+mvn install:install-file -Dfile=orai18n.jar -DgroupId=com.oracle.jdbc -DartifactId=orai18n -Dversion=19.3 -Dpackaging=jar -DgeneratePom=true
+
+mvn install:install-file -Dfile=osdt_core.jar -DgroupId=com.oracle.jdbc -DartifactId=osdt_core -Dversion=19.3 -Dpackaging=jar -DgeneratePom=true
+
+mvn install:install-file -Dfile=ucp.jar -DgroupId=com.oracle.jdbc -DartifactId=ucp -Dversion=19.3 -Dpackaging=jar -DgeneratePom=true
+
+mvn install:install-file -Dfile=xmlparserv2.jar -DgroupId=com.oracle.jdbc -DartifactId=xmlparserv2 -Dversion=19.3 -Dpackaging=jar -DgeneratePom=true
+
+mvn install:install-file -Dfile=ojdbc8.jar -DgroupId=com.oracle.jdbc -DartifactId=ojdbc8 -Dversion=19.3 -Dpackaging=jar -DgeneratePom=true
+
+mvn install:install-file -Dfile=oraclepki.jar -DgroupId=com.oracle.jdbc -DartifactId=oraclepki -Dversion=19.3 -Dpackaging=jar -DgeneratePom=true
+
+mvn install:install-file -Dfile=osdt_cert.jar -DgroupId=com.oracle.jdbc -DartifactId=osdt_cert -Dversion=19.3 -Dpackaging=jar -DgeneratePom=true
+
+mvn install:install-file -Dfile=simplefan.jar -DgroupId=com.oracle.jdbc -DartifactId=simplefan -Dversion=19.3 -Dpackaging=jar -DgeneratePom=true
+
+mvn install:install-file -Dfile=xdb.jar -DgroupId=com.oracle.jdbc -DartifactId=xdb -Dversion=19.3 -Dpackaging=jar -DgeneratePom=true
+
+
 ```
 3. Run the following command to build the example:
 
@@ -49,7 +70,7 @@ mvn install:install-file -Dfile=ojdbc8.jar -DgroupId=com.oracle -DartifactId=ojd
     
 This command builds the example as a set of Docker images.
 
-## Test
+## Run
 Follow the steps below to run the example:
 
 1. Run the following command to start the example:
@@ -64,3 +85,16 @@ The Docker Compose script starts the following containers:
 * 1 - [mqtt-service](mqtt-service) to collect temperature statistics.
 * 2 - [temp-sensor](temp-sensor) to generate temperature data.
         
+## Test
+
+Every 5 seconds there is a request from the temp sensor to the mqtt service, but there is also a service that generates requests.
+
+
+The endpoint of the service is "/generate" and has two query parameters:
+* duration (milliseconds)
+* rps (request per second)
+
+The next request sends 10 request per second, during 4 seconds.
+```
+curl 'http://localhost:8080/generate?duration=4000&rps=10'
+```

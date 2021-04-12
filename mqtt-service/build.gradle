@@ -17,7 +17,17 @@ dependencies {
         exclude group: 'org.apache.tomcat', module: 'tomcat-jdbc'
     }
 
-    compile "com.oracle:ojdbc8:1.0"
+    implementation "com.oracle.jdbc:ons:19.3"
+    implementation "com.oracle.jdbc:orai18n:19.3"
+    implementation "com.oracle.jdbc:osdt_core:19.3"
+    implementation "com.oracle.jdbc:ucp:19.3"
+    implementation "com.oracle.jdbc:xmlparserv2:19.3"
+    implementation "com.oracle.jdbc:ojdbc8:19.3"
+    implementation "com.oracle.jdbc:oraclepki:19.3"
+    implementation "com.oracle.jdbc:osdt_cert:19.3"
+    implementation "com.oracle.jdbc:simplefan:19.3"
+    implementation "com.oracle.jdbc:xdb:19.3"
+
 }
 
 // Packaging
