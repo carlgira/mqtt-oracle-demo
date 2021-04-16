@@ -1,6 +1,8 @@
 # mqtt-oracle-demo
 An example of integrating MQTT messaging into Spring Boot and Oracle database
 
+![](diagram.png)
+
 ## Requirements
 
 Install **maven** and **gradle** to compile the projects, and **docker** to create containers for the needed apps.
