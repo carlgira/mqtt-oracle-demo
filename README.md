@@ -18,7 +18,14 @@ Install **maven** and **gradle** to compile the projects, and **docker** to crea
 CREATE TABLE SENSOR (SENSOR_ID VARCHAR2(50), TEMP NUMBER, CLIENT_ID VARCHAR2(50), MOD_TIMESTAMP TIMESTAMP);
 ```
 
-2. Edit the file ![application-localdocker.properties](mqtt-service/src/main/resources/application-localdocker.properties) with the proper values for the Oracle database and for the MQTT server connection. 
+2. Configure the wallet of the database (in case you are using a wallet), copy the folder to the mqtt-service and configure the Dockerfile according.
+**If you are going to use a direct connection erase this config from Dockerfile (in the example I use the wallet "wallet_atptest")**
+```
+COPY wallet_atptest /opt/mqtt-service/wallet_atptest
+ENTRYPOINT ["java", "-Doracle.net.tns_admin=/opt/mqtt-service/wallet_atptest"
+```
+
+2. Edit the file ![application-localdocker.properties](mqtt-service/src/main/resources/application-localdocker.properties) with the proper values for the Oracle database and for the MQTT server connection.
 ```
 # Local Docker Properties
 mqtt.hostname=host.docker.internal
@@ -27,6 +34,8 @@ mqtt.username=username
 mqtt.password=password
 mqtt.topic=example.sensor.temp
 
+# Oracle 
+#spring.datasource.url=jdbc:oracle:thin:@atptest_high
 spring.datasource.url=jdbc:oracle:thin:@192.168.1.8:1521/ORCL
 spring.datasource.username=mqtt
 spring.datasource.password=oracle
@@ -43,27 +52,17 @@ spring.jpa.database=oracle
 # For driver 19.3 would be like
 
 mvn install:install-file -Dfile=ons.jar -DgroupId=com.oracle.jdbc -DartifactId=ons -Dversion=19.3 -Dpackaging=jar -DgeneratePom=true
-
 mvn install:install-file -Dfile=orai18n.jar -DgroupId=com.oracle.jdbc -DartifactId=orai18n -Dversion=19.3 -Dpackaging=jar -DgeneratePom=true
-
 mvn install:install-file -Dfile=osdt_core.jar -DgroupId=com.oracle.jdbc -DartifactId=osdt_core -Dversion=19.3 -Dpackaging=jar -DgeneratePom=true
-
 mvn install:install-file -Dfile=ucp.jar -DgroupId=com.oracle.jdbc -DartifactId=ucp -Dversion=19.3 -Dpackaging=jar -DgeneratePom=true
-
 mvn install:install-file -Dfile=xmlparserv2.jar -DgroupId=com.oracle.jdbc -DartifactId=xmlparserv2 -Dversion=19.3 -Dpackaging=jar -DgeneratePom=true
-
 mvn install:install-file -Dfile=ojdbc8.jar -DgroupId=com.oracle.jdbc -DartifactId=ojdbc8 -Dversion=19.3 -Dpackaging=jar -DgeneratePom=true
-
 mvn install:install-file -Dfile=oraclepki.jar -DgroupId=com.oracle.jdbc -DartifactId=oraclepki -Dversion=19.3 -Dpackaging=jar -DgeneratePom=true
-
 mvn install:install-file -Dfile=osdt_cert.jar -DgroupId=com.oracle.jdbc -DartifactId=osdt_cert -Dversion=19.3 -Dpackaging=jar -DgeneratePom=true
-
 mvn install:install-file -Dfile=simplefan.jar -DgroupId=com.oracle.jdbc -DartifactId=simplefan -Dversion=19.3 -Dpackaging=jar -DgeneratePom=true
-
 mvn install:install-file -Dfile=xdb.jar -DgroupId=com.oracle.jdbc -DartifactId=xdb -Dversion=19.3 -Dpackaging=jar -DgeneratePom=true
-
-
 ```
+
 3. Run the following command to build the example:
 
 ```
