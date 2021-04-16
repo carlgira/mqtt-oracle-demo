@@ -6,7 +6,6 @@ An example of integrating MQTT messaging into Spring Boot and Oracle database
 Install **maven** and **gradle** to compile the projects, and **docker** to create containers for the needed apps.
 
 - maven
-- gradle
 - docker
 
 **  *For commands to install on centos-7 see file config-req.sh*
