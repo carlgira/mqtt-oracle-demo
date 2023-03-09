@@ -5,18 +5,15 @@ An example of integrating MQTT messaging into Spring Boot and Oracle database
 
 ## Requirements
 
-Install **maven** and **gradle** to compile the projects, and **docker** to create containers for the needed apps.
+Install **docker** to create containers for the needed apps.
 
-- maven
 - docker
-
-**  *For commands to install on centos-7 see file config-req.sh*
 
 ## Configuration
 
 1. Create a database user, and inside the next table.
 ```
-CREATE TABLE SENSOR (SENSOR_ID VARCHAR2(50), TEMP NUMBER, CLIENT_ID VARCHAR2(50), MOD_TIMESTAMP TIMESTAMP);
+CREATE TABLE generativeai.SENSOR (SENSOR_ID VARCHAR2(50), TEMP NUMBER, CLIENT_ID VARCHAR2(50), MOD_TIMESTAMP TIMESTAMP);
 ```
 
 2. Configure the wallet of the database (in case you are using a wallet), copy the folder to the mqtt-service and configure the Dockerfile according.
@@ -48,23 +45,7 @@ spring.jpa.database=oracle
 ## Build
 
 1. Go to https://www.oracle.com/es/database/technologies/appdev/jdbc-downloads.html and download the jdbc driver for your database.
-2. Install all the .jar into the local maven repository.
-```
-# For driver 19.3 would be like
-
-mvn install:install-file -Dfile=ons.jar -DgroupId=com.oracle.jdbc -DartifactId=ons -Dversion=19.3 -Dpackaging=jar -DgeneratePom=true
-mvn install:install-file -Dfile=orai18n.jar -DgroupId=com.oracle.jdbc -DartifactId=orai18n -Dversion=19.3 -Dpackaging=jar -DgeneratePom=true
-mvn install:install-file -Dfile=osdt_core.jar -DgroupId=com.oracle.jdbc -DartifactId=osdt_core -Dversion=19.3 -Dpackaging=jar -DgeneratePom=true
-mvn install:install-file -Dfile=ucp.jar -DgroupId=com.oracle.jdbc -DartifactId=ucp -Dversion=19.3 -Dpackaging=jar -DgeneratePom=true
-mvn install:install-file -Dfile=xmlparserv2.jar -DgroupId=com.oracle.jdbc -DartifactId=xmlparserv2 -Dversion=19.3 -Dpackaging=jar -DgeneratePom=true
-mvn install:install-file -Dfile=ojdbc8.jar -DgroupId=com.oracle.jdbc -DartifactId=ojdbc8 -Dversion=19.3 -Dpackaging=jar -DgeneratePom=true
-mvn install:install-file -Dfile=oraclepki.jar -DgroupId=com.oracle.jdbc -DartifactId=oraclepki -Dversion=19.3 -Dpackaging=jar -DgeneratePom=true
-mvn install:install-file -Dfile=osdt_cert.jar -DgroupId=com.oracle.jdbc -DartifactId=osdt_cert -Dversion=19.3 -Dpackaging=jar -DgeneratePom=true
-mvn install:install-file -Dfile=simplefan.jar -DgroupId=com.oracle.jdbc -DartifactId=simplefan -Dversion=19.3 -Dpackaging=jar -DgeneratePom=true
-mvn install:install-file -Dfile=xdb.jar -DgroupId=com.oracle.jdbc -DartifactId=xdb -Dversion=19.3 -Dpackaging=jar -DgeneratePom=true
-```
-
-3. Run the following command to build the example:
+2Run the following command to build the example:
 
 ```
 ./gradlew clean buildImage

@@ -1,19 +1,13 @@
 buildscript {
     ext {
-        springBootVersion = '2.3.9.RELEASE'
+        springBootVersion = '2.7.9'
     }
 }
 
 plugins {
-    id "com.gradle.build-scan" version "3.0"
     id 'org.springframework.boot' version "$springBootVersion" apply false
-    id "io.spring.dependency-management" version "1.0.7.RELEASE" apply false
-    id "com.bmuschko.docker-remote-api" version "3.4.4" apply false
-}
-
-buildScan {
-    termsOfServiceUrl = "https://gradle.com/terms-of-service"
-    termsOfServiceAgree = "yes"
+    id "io.spring.dependency-management" version "1.1.0" apply false
+    id "com.bmuschko.docker-remote-api" version "9.2.1" apply false
 }
 
 allprojects {

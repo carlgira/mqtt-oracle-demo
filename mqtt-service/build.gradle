@@ -17,16 +17,12 @@ dependencies {
         exclude group: 'org.apache.tomcat', module: 'tomcat-jdbc'
     }
 
-    implementation "com.oracle.jdbc:ons:19.3"
-    implementation "com.oracle.jdbc:orai18n:19.3"
-    implementation "com.oracle.jdbc:osdt_core:19.3"
-    implementation "com.oracle.jdbc:ucp:19.3"
-    implementation "com.oracle.jdbc:xmlparserv2:19.3"
-    implementation "com.oracle.jdbc:ojdbc8:19.3"
-    implementation "com.oracle.jdbc:oraclepki:19.3"
-    implementation "com.oracle.jdbc:osdt_cert:19.3"
-    implementation "com.oracle.jdbc:simplefan:19.3"
-    implementation "com.oracle.jdbc:xdb:19.3"
+    implementation group: 'com.oracle.database.jdbc', name: 'ojdbc8', version: '19.18.0.0'
+    implementation group: 'com.oracle.database.security', name: 'oraclepki', version: '19.18.0.0'
+    implementation group: 'com.oracle.database.security', name: 'osdt_core', version: '19.18.0.0'
+    implementation group: 'com.oracle.database.security', name: 'osdt_cert', version: '19.18.0.0'
+
+
 
 }
 
@@ -35,5 +31,5 @@ task buildImage(type: DockerBuildImage, dependsOn: build) {
     buildArgs = ['JAR_FILE': "${bootJar.archiveName}"]
     dockerFile = file("${projectDir}/Dockerfile")
     inputDir = file("${projectDir}")
-    tags = ["carlgira/mqtt-example-${projectDir.name}", "carlgira/mqtt-example-${projectDir.name}:${version}"]
+    images = ["carlgira/mqtt-example-${projectDir.name}", "carlgira/mqtt-example-${projectDir.name}:${version}"]
 }

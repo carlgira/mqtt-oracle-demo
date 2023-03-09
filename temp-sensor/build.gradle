@@ -14,13 +14,14 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.integration:spring-integration-mqtt'
     implementation 'io.projectreactor:reactor-core'
-    implementation 'com.fasterxml.jackson.core:jackson-databind:2.10.1'
+    implementation group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.14.2'
+
 }
 
 // Packaging
 task buildImage(type: DockerBuildImage, dependsOn: build) {
-    buildArgs = ['JAR_FILE': "${bootJar.archiveName}"]
+    buildArgs = ['JAR_FILE': "${bootJar.archiveFileName}"]
     dockerFile = file("${projectDir}/Dockerfile")
     inputDir = file("${projectDir}")
-    tags = ["carlgira/mqtt-example-${projectDir.name}", "carlgira/mqtt-example-${projectDir.name}:${version}"]
+    images = ["carlgira/mqtt-example-${projectDir.name}", "carlgira/mqtt-example-${projectDir.name}:${version}"]
 }
