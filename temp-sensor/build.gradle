@@ -20,7 +20,7 @@ dependencies {
 
 // Packaging
 task buildImage(type: DockerBuildImage, dependsOn: build) {
-    buildArgs = ['JAR_FILE': "${bootJar.archiveFileName}"]
+    buildArgs = ['JAR_FILE': "${bootJar.archiveName}"]
     dockerFile = file("${projectDir}/Dockerfile")
     inputDir = file("${projectDir}")
     images = ["carlgira/mqtt-example-${projectDir.name}", "carlgira/mqtt-example-${projectDir.name}:${version}"]
