@@ -3,14 +3,14 @@ services:
   mqtt-broker:
     image: eclipse-mosquitto
     ports:
-      - "localhost:1883:1883"
-      - "localhost:9001:9001"
+      - "localhost:1883:1883/tcp"
+      - "localhost:9001:9001/tcp"
     volumes:
       - ./mosquitto.conf:/mosquitto/config/mosquitto.conf
   temp-sensor1:
     image: carlgira/mqtt-example-temp-sensor
     ports:
-      - "localhost:8080:8080"
+      - "localhost:8080:8080/tcp"
     environment:
       - "SPRING_PROFILES_ACTIVE=localdocker"
     depends_on:
